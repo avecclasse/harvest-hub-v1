@@ -1,0 +1,14 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --harvest-green: #2d5a27;
+  --harvest-lime: #7cb342;
+  --harvest-cream: #f5f0e8;
+  --harvest-earth: #8d6e63;
+}
+
+body {
+  background-color: var(--harvest-cream);
+}
