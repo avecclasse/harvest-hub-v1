@@ -138,7 +138,7 @@ export default function DashboardPage() {
               />
             </div>
             <p className="mt-1 text-sm text-harvest-earth">
-              {confirmedBundles} of {snapshot.totalCapacity} weekly bundles reserved
+              {confirmedBundles} of {snapshot.totalCapacity} market bundles reserved
             </p>
             <p className="text-xs text-harvest-earth">
               {weeklyBundlesRemaining} bundles remaining
