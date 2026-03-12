@@ -99,25 +99,32 @@ export default function DashboardPage() {
       </p>
 
       <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
-        <div className="rounded-xl border border-harvest-earth/20 bg-white p-6">
-          <h2 className="text-sm font-medium text-harvest-earth">
-            Steward Bundles Purchased
-          </h2>
-          <p className="mt-2 text-3xl font-bold text-harvest-green">
-            {stewardBundlesPurchased}
-          </p>
-        </div>
-        <div className="rounded-xl border border-harvest-earth/20 bg-white p-6">
-          <h2 className="text-sm font-medium text-harvest-earth">
-            Equity Bundles Unlocked
-          </h2>
-          <p className="mt-2 text-3xl font-bold text-harvest-green">
-            {equityBundlesUnlocked}
-          </p>
-        </div>
-        <div className="col-span-1 md:col-span-2 flex items-center gap-2 text-xs text-harvest-earth">
-          <span className="text-harvest-green">➜</span>
-          <span>Steward participation this week unlocked additional Equity access.</span>
+        <div className="md:col-span-2">
+          <div className="flex flex-col items-stretch gap-4 md:flex-row md:items-center md:justify-between">
+            <div className="flex-1 rounded-xl border border-harvest-earth/20 bg-white p-6">
+              <h2 className="text-sm font-medium text-harvest-earth">
+                Steward Bundles Purchased
+              </h2>
+              <p className="mt-2 text-3xl font-bold text-harvest-green">
+                {stewardBundlesPurchased}
+              </p>
+            </div>
+            <div className="flex flex-col items-center text-xs text-harvest-green text-center max-w-[200px]">
+              <span className="text-base">➜</span>
+              <span>
+                Steward participation this week unlocked additional Equity
+                access.
+              </span>
+            </div>
+            <div className="flex-1 rounded-xl border border-harvest-earth/20 bg-white p-6">
+              <h2 className="text-sm font-medium text-harvest-earth">
+                Equity Bundles Unlocked
+              </h2>
+              <p className="mt-2 text-3xl font-bold text-harvest-green">
+                {equityBundlesUnlocked}
+              </p>
+            </div>
+          </div>
         </div>
         <div className="rounded-xl border border-harvest-earth/20 bg-white p-6">
           <h2 className="text-sm font-medium text-harvest-earth">
