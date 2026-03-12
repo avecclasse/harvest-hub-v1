@@ -55,16 +55,11 @@ export default function LearnPage() {
                 farmers markets or grocery stores without reliable transit.
               </li>
               <li>
-                <strong>Coordinated distribution:</strong> The need for a system
-                that brings produce to centralized pickup points, making it easier
-                for everyone to participate.
+                <strong>Inconvenient Options:</strong> Healthy food is often available only at specific times or locations, making it difficult for busy households to access consistently.
               </li>
             </ul>
             <p className="text-harvest-earth">
-              Our Community Capacity Pool ensures that Steward participation
-              directly expands access for Equity households. When you choose the
-              Steward tier, you unlock one additional Equity seat for a neighbor
-              in need.
+              Harvest Hub uses a shared capacity model where Steward participation expands access for others. Each Steward order unlocks one additional Equity seat, allowing more households in need to access fresh produce.
             </p>
           </div>
         )}
@@ -99,28 +94,22 @@ export default function LearnPage() {
               What is Devoir
             </h2>
             <p className="text-harvest-earth">
-              Devoir is the coordination system that powers fair distribution at
-              Harvest Hub. It ensures that:
+              Devoir is the coordination system that keeps Harvest Hub fair, predictable, and accessible for everyone. It ensures that:
             </p>
             <ul className="list-inside list-disc space-y-2 text-harvest-earth">
               <li>
-                <strong>Capacity is managed fairly:</strong> Tier caps (Equity
-                30%, Anchor 55%, Steward 25%) prevent any single tier from
-                dominating the market.
+                <strong>Capacity stays balanced:</strong> Tier limits keep the system healthy so no single group takes all available seats.
               </li>
               <li>
-                <strong>Equity seats unlock through Steward participation:</strong>{" "}
-                Every Steward reservation opens one more seat for an Equity
-                household.
+                <strong>Community support expands access:</strong>{" "}
+                Every Steward reservation unlocks an additional Equity seat for a household facing financial barriers.
               </li>
               <li>
-                <strong>Waitlists work predictably:</strong> Priority Equity
-                waitlist members are promoted FIFO when new capacity opens.
+                <strong>Waitlists move fairly:</strong> When new capacity opens, Equity households on the waitlist are promoted in order so access grows transparently.
               </li>
             </ul>
             <p className="text-harvest-earth">
-              Devoir runs in the background to allocate orders, assign pickup
-              nodes, and keep the system running smoothly for everyone.
+              Devoir runs quietly in the background to allocate orders, coordinate pickup nodes, and keep the system operating smoothly.
             </p>
           </div>
         )}
