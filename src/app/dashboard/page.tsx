@@ -62,9 +62,15 @@ export default function DashboardPage() {
   const confirmedBundles = snapshot.totalConfirmed;
   const householdsSupported =
     snapshot.equityCount + snapshot.anchorCount + snapshot.stewardCountConfirmed;
+  const stewardBundlesPurchased = snapshot.stewardCountConfirmed;
+  const equityBundlesUnlocked = snapshot.unlockedEquitySeats;
   const progressPercent = Math.min(
     100,
     (confirmedBundles / snapshot.totalCapacity) * 100
+  );
+  const weeklyBundlesRemaining = Math.max(
+    0,
+    snapshot.totalCapacity - confirmedBundles
   );
 
   const equityPercent =
@@ -87,27 +93,35 @@ export default function DashboardPage() {
       <h1 className="text-2xl font-bold text-harvest-green">
         Community Capacity Pool
       </h1>
+      <p className="text-sm text-harvest-earth">
+        Every Steward bundle purchased helps unlock additional Equity access for
+        a neighbor facing financial barriers.
+      </p>
 
-      <div className="grid gap-6 md:grid-cols-3">
+      <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
         <div className="rounded-xl border border-harvest-earth/20 bg-white p-6">
           <h2 className="text-sm font-medium text-harvest-earth">
-            Bundles Funded This Week
+            Steward Bundles Purchased
           </h2>
           <p className="mt-2 text-3xl font-bold text-harvest-green">
-            {confirmedBundles}
+            {stewardBundlesPurchased}
           </p>
         </div>
         <div className="rounded-xl border border-harvest-earth/20 bg-white p-6">
           <h2 className="text-sm font-medium text-harvest-earth">
-            Households Supported
+            Equity Bundles Unlocked
           </h2>
           <p className="mt-2 text-3xl font-bold text-harvest-green">
-            {householdsSupported}
+            {equityBundlesUnlocked}
           </p>
+        </div>
+        <div className="col-span-1 md:col-span-2 flex items-center gap-2 text-xs text-harvest-earth">
+          <span className="text-harvest-green">➜</span>
+          <span>Steward participation this week unlocked additional Equity access.</span>
         </div>
         <div className="rounded-xl border border-harvest-earth/20 bg-white p-6">
           <h2 className="text-sm font-medium text-harvest-earth">
-            Weekly Capacity Progress
+            Market Bundles Reserved
           </h2>
           <div className="mt-2">
             <div className="h-4 w-full overflow-hidden rounded-full bg-harvest-earth/20">
@@ -117,7 +131,10 @@ export default function DashboardPage() {
               />
             </div>
             <p className="mt-1 text-sm text-harvest-earth">
-              {confirmedBundles} / {snapshot.totalCapacity} ({progressPercent.toFixed(0)}%)
+              {confirmedBundles} of {snapshot.totalCapacity} weekly bundles reserved
+            </p>
+            <p className="text-xs text-harvest-earth">
+              {weeklyBundlesRemaining} bundles remaining
             </p>
           </div>
         </div>
@@ -125,12 +142,12 @@ export default function DashboardPage() {
 
       <div className="rounded-xl border border-harvest-earth/20 bg-white p-6">
         <h2 className="font-semibold text-harvest-green">
-          Market Capacity Breakdown
+          Market Bundle Breakdown
         </h2>
         <p className="mt-1 text-sm text-harvest-earth">
-          Unlocked Equity seats: {snapshot.unlockedEquitySeats} (base:{" "}
-          {snapshot.baseEquitySeats} + {snapshot.stewardCount} from Steward
-          participation)
+          This market, {snapshot.unlockedEquitySeats} Equity bundles are
+          available: {snapshot.baseEquitySeats} base + {snapshot.stewardCount}{" "}
+          unlocked through Steward participation.
         </p>
         <div className="mt-6 flex flex-col gap-4 md:flex-row md:items-center">
           <div className="flex-1">
@@ -139,7 +156,9 @@ export default function DashboardPage() {
                 <p className="text-2xl font-bold text-harvest-green">
                   {snapshot.totalCapacity}
                 </p>
-                <p className="text-sm text-harvest-earth">Total Capacity</p>
+                <p className="text-sm text-harvest-earth">
+                  Market bundle limit
+                </p>
               </div>
             </div>
           </div>
@@ -151,10 +170,10 @@ export default function DashboardPage() {
               />
               <div>
                 <p className="font-medium text-harvest-green">
-                  Equity: {snapshot.equityCount} seats ({equityPercent}%)
+                  Equity: {snapshot.equityCount} bundles ({equityPercent}%)
                 </p>
                 <p className="text-xs text-harvest-earth">
-                  Cap: {snapshot.equityCap} (30% max)
+                  Up to {snapshot.equityCap} bundles
                 </p>
               </div>
             </div>
@@ -165,10 +184,10 @@ export default function DashboardPage() {
               />
               <div>
                 <p className="font-medium text-harvest-green">
-                  Anchor: {snapshot.anchorCount} seats ({anchorPercent}%)
+                  Anchor: {snapshot.anchorCount} bundles ({anchorPercent}%)
                 </p>
                 <p className="text-xs text-harvest-earth">
-                  Cap: {snapshot.anchorCap} (55% max)
+                  Up to {snapshot.anchorCap} bundles
                 </p>
               </div>
             </div>
@@ -179,14 +198,28 @@ export default function DashboardPage() {
               />
               <div>
                 <p className="font-medium text-harvest-green">
-                  Steward: {snapshot.stewardCountConfirmed} seats (
+                  Steward: {snapshot.stewardCountConfirmed} bundles (
                   {stewardPercent}%)
                 </p>
                 <p className="text-xs text-harvest-earth">
-                  Cap: {snapshot.stewardCap} (25% max)
+                  Up to {snapshot.stewardCap} bundles
                 </p>
               </div>
             </div>
+          </div>
+        </div>
+        <div className="mt-4 grid gap-4 text-xs text-harvest-earth md:grid-cols-3">
+          <div>
+            <p className="font-medium text-harvest-green">Equity</p>
+            <p>Reduced-cost access for neighbors facing financial barriers.</p>
+          </div>
+          <div>
+            <p className="font-medium text-harvest-green">Anchor</p>
+            <p>Standard participation at regular bundle price.</p>
+          </div>
+          <div>
+            <p className="font-medium text-harvest-green">Steward</p>
+            <p>Participation that helps unlock additional Equity access.</p>
           </div>
         </div>
       </div>
