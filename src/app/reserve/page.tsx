@@ -177,8 +177,8 @@ export default function ReservePage() {
           Reserve Your Bundle
         </h1>
         <p className="mt-2 text-harvest-earth">
-          Choose your bundle tier. Every Steward bundle helps another household receive produce.
-          All bundles include the same produce, with tiers indicating the level participants contribute to supporting community access.
+          Choose your bundle tier. Every Steward bundle helps another household receive produce. <br />
+          All bundles include the same produce tiers — indicating the level participants contribute to supporting community access.
         </p>
 
         <div className="mt-8 rounded-xl border border-harvest-earth/20 bg-white p-6">
