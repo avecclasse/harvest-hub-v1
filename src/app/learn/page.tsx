@@ -47,15 +47,15 @@ export default function LearnPage() {
             </p>
             <ul className="list-inside list-disc space-y-2 text-harvest-earth">
               <li>
-                <strong>Food access:</strong> Limited availability of affordable,
+                <strong>Food Access:</strong> Limited availability of affordable,
                 nutritious produce in certain neighborhoods.
               </li>
               <li>
-                <strong>Transportation barriers:</strong> Difficulty reaching
-                farmers markets or grocery stores without reliable transit.
+                <strong>Transportation Barriers:</strong> Difficulty reaching
+                farmers' markets or grocery stores without reliable transit.
               </li>
               <li>
-                <strong>Inconvenient Options:</strong> Healthy food is often available only at specific times or locations, making it difficult for busy households to access consistently.
+                <strong>Inconvenient Options:</strong> Healthy food is often available only at specific times or locations, making it difficult for busy households to access it consistently.
               </li>
             </ul>
             <p className="text-harvest-earth">
@@ -70,20 +70,15 @@ export default function LearnPage() {
               Where Produce Comes From
             </h2>
             <p className="text-harvest-earth">
-              Harvest Hub sources produce from local and regional farms committed
-              to sustainable practices. Our weekly bundles include:
+              Harvest Hub sources produce through a regional network of farms, distributors, and surplus food partners, allowing bundles to adapt to seasonal availability while keeping costs affordable.
             </p>
             <ul className="list-inside list-disc space-y-2 text-harvest-earth">
-              <li>Seasonal vegetables and fruits</li>
-              <li>Fresh herbs</li>
-              <li>Produce from farms within our regional network</li>
+              <li><strong>Network sourcing:</strong> Produce comes from local farms when available, regional distributors, and food recovery partners to ensure a consistent supply.</li>
+              <li><strong>Example bundle:</strong> Contents may include leafy greens, root vegetables, seasonal fruits, herbs, and other fresh staples depending on availability.</li>
+              <li><strong>Pilot phase:</strong> Harvest Hub is testing produce mixes, price points, and supply partners. Early feedback helps shape future bundles and sourcing partnerships.</li>
             </ul>
             <p className="text-harvest-earth">
-              Pickup happens at designated community nodes—local sites like
-              churches, community centers, or partner organizations. When your
-              order is confirmed, you&apos;ll be assigned to a pickup node near you.
-              Each node has limited capacity to ensure smooth distribution and
-              minimal waste.
+              Pickup happens at designated community nodes (partner organizations, churches, or community centers). When your order is confirmed, you'll be assigned to a nearby pickup node with limited capacity to ensure smooth distribution.
             </p>
           </div>
         )}
@@ -98,14 +93,14 @@ export default function LearnPage() {
             </p>
             <ul className="list-inside list-disc space-y-2 text-harvest-earth">
               <li>
-                <strong>Capacity stays balanced:</strong> Tier limits keep the system healthy so no single group takes all available seats.
+                <strong>Capacity stays balanced:</strong> Tier limits keep the system healthy, so no single group takes all available seats.
               </li>
               <li>
                 <strong>Community support expands access:</strong>{" "}
                 Every Steward reservation unlocks an additional Equity seat for a household facing financial barriers.
               </li>
               <li>
-                <strong>Waitlists move fairly:</strong> When new capacity opens, Equity households on the waitlist are promoted in order so access grows transparently.
+                <strong>Waitlists move fairly:</strong> When new capacity opens, Equity households on the waitlist are promoted in order, so access grows transparently.
               </li>
             </ul>
             <p className="text-harvest-earth">
