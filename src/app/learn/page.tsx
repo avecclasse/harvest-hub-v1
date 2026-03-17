@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 
-type Section = "why" | "sourcing" | "devoir";
+type Section = "why" | "steward" | "sourcing" | "devoir";
 
 export default function LearnPage() {
   const [activeSection, setActiveSection] = useState<Section>("why");
@@ -17,6 +17,7 @@ export default function LearnPage() {
       <div className="mt-8 flex flex-wrap gap-2">
         {[
           { id: "why" as const, label: "Why This Exists" },
+          { id: "steward" as const, label: "What is a Steward?" },
           { id: "sourcing" as const, label: "Where Produce Comes From" },
           { id: "devoir" as const, label: "What is Devoir" },
         ].map(({ id, label }) => (
@@ -60,6 +61,81 @@ export default function LearnPage() {
             </ul>
             <p className="text-harvest-earth">
               Harvest Hub uses a shared capacity model where Steward participation expands access for others. Each Steward order unlocks one additional Equity seat, allowing more households in need to access fresh produce.
+            </p>
+          </div>
+        )}
+
+        {activeSection === "steward" && (
+          <div className="space-y-4">
+            <h2 className="text-xl font-semibold text-harvest-green">
+              What is a Steward?
+            </h2>
+            <p className="text-harvest-earth">
+              A Steward is someone who joins Harvest Hub knowing their food
+              choices can improve their community. They&apos;re not just buying
+              produce for themselves—they&apos;re choosing a system that helps
+              more households consistently access quality food.
+            </p>
+
+            <div>
+              <h3 className="text-lg font-semibold text-harvest-green">
+                What Defines a Steward
+              </h3>
+              <ul className="list-inside list-disc space-y-2 text-harvest-earth">
+                <li>
+                  <strong>Community-minded buying:</strong> &quot;My purchase
+                  can strengthen the network, not just fill my fridge.&quot;
+                </li>
+                <li>
+                  <strong>Irritation with the status quo:</strong> A sense that
+                  the current food system too often leaves some neighborhoods
+                  with fewer healthy options.
+                </li>
+                <li>
+                  <strong>Compassion and solidarity:</strong> A desire to stand
+                  with neighbors and help build something that works for more
+                  people.
+                </li>
+                <li>
+                  <strong>Agency over charity:</strong> Stewardship isn&apos;t
+                  about saving anyone—it&apos;s about taking responsibility for
+                  the kind of community we want.
+                </li>
+              </ul>
+            </div>
+
+            <div>
+              <h3 className="text-lg font-semibold text-harvest-green">
+                Why Stewards Matter to Harvest Hub
+              </h3>
+              <ul className="list-inside list-disc space-y-2 text-harvest-earth">
+                <li>
+                  <strong>They expand shared capacity:</strong> Harvest Hub runs
+                  on a shared capacity model that serves more households when
+                  Stewards participate.
+                </li>
+                <li>
+                  <strong>They unlock Equity seats:</strong> Each Steward
+                  produce bundle opens additional Equity seats for households
+                  with fewer resources.
+                </li>
+                <li>
+                  <strong>They reduce reliance on donations:</strong> This moves
+                  the model away from charity and toward shared participation.
+                </li>
+                <li>
+                  <strong>They strengthen inclusion:</strong> As more Stewards
+                  join, the network grows in a way that brings in households
+                  that are often excluded from healthy food systems.
+                </li>
+              </ul>
+            </div>
+
+            <p className="text-harvest-earth">
+              Stewardship is a simple idea: we do better when we do this
+              together. If you believe expanding access to healthy food makes
+              the whole community stronger—and that it doesn&apos;t take away
+              from what you have—you may already be a Steward.
             </p>
           </div>
         )}
