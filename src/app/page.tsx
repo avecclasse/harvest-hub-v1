@@ -13,7 +13,7 @@ export default function HomePage() {
           Harvest Hub
         </h1>
         <p className="mt-4 text-lg text-harvest-earth md:text-xl">
-          Reserve your weekly produce bundle. Support community food access.
+          Reserve your produce bundle. Support community food access.
           Choose your tier and grow together.
         </p>
         {!isLoading && !user && (
@@ -33,7 +33,7 @@ export default function HomePage() {
         >
           <h2 className="font-semibold text-harvest-green">Reserve</h2>
           <p className="mt-2 text-sm text-harvest-earth">
-            Reserve your weekly produce bundle. Choose Equity, Anchor, or
+            Reserve your produce bundle. Choose Equity, Anchor, or
             Steward tier.
           </p>
         </Link>
@@ -43,7 +43,7 @@ export default function HomePage() {
         >
           <h2 className="font-semibold text-harvest-green">Dashboard</h2>
           <p className="mt-2 text-sm text-harvest-earth">
-            Community capacity pool dashboard. See bundles funded and
+            Community capacity pool dashboard. See available bundles &
             households supported.
           </p>
         </Link>
@@ -62,7 +62,7 @@ export default function HomePage() {
         >
           <h2 className="font-semibold text-harvest-green">My Orders</h2>
           <p className="mt-2 text-sm text-harvest-earth">
-            Track your reservations with allocation status updates.
+            Track your reservations with order status updates.
           </p>
         </Link>
       </section>

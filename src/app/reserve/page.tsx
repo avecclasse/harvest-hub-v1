@@ -159,8 +159,8 @@ export default function ReservePage() {
         outcome.status === "confirmed"
           ? "Reservation confirmed! View your order in My Orders."
           : outcome.status === "waitlisted_priority"
-          ? "You're on the Priority Equity Waitlist. We'll notify you when a seat opens."
-          : "You're on the Standard Waitlist. We'll notify you when capacity opens."
+          ? "You're on the Waitlist. We'll notify you when a capacity opens."
+          : "You're on the Waitlist. We'll notify you when capacity opens."
       );
       setTimeout(() => router.push("/orders"), 2000);
     } catch (err) {
@@ -177,18 +177,17 @@ export default function ReservePage() {
           Reserve Your Bundle
         </h1>
         <p className="mt-2 text-harvest-earth">
-          Choose your tier to support the community capacity pool. Steward
-          participation unlocks additional Equity seats.
+          Choose your bundle tier. Every Steward bundle helps another household receive produce. <br />
+          All bundles include the same produce. Tiers indicate the level at which participants contribute to supporting community access.
         </p>
 
         <div className="mt-8 rounded-xl border border-harvest-earth/20 bg-white p-6">
           <h2 className="font-semibold text-harvest-green">
-            Weekly Produce Bundle
+            Produce Bundle
           </h2>
           <p className="mt-2 text-sm text-harvest-earth">
-            A curated selection of seasonal produce from local farms:
-            vegetables, fruits, and herbs. Pickup at your assigned community
-            node.
+            Fresh seasonal fruits, vegetables, and herbs sourced through our regional farm network.
+Pickup at your assigned community node.
           </p>
         </div>
 
@@ -208,8 +207,8 @@ export default function ReservePage() {
                 <span className="font-medium">{t}</span>
                 <p className="mt-1 text-sm text-harvest-earth">
                   {t === "equity" &&
-                    "Supports households facing food access barriers."}
-                  {t === "anchor" && "Sustains the community capacity pool."}
+                    "For households facing food access barriers."}
+                  {t === "anchor" && "Helps sustain operations."}
                   {t === "steward" &&
                     "Expands access: 1 Steward unlocks 1 additional Equity seat."}
                 </p>
