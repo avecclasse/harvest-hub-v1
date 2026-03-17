@@ -83,21 +83,21 @@ export default function LearnPage() {
               </h3>
               <ul className="list-inside list-disc space-y-2 text-harvest-earth">
                 <li>
-                  <strong>Community-minded buying:</strong> &quot;My purchase
+                  <strong>Community-Minded Buying:</strong> &quot;My purchase
                   can strengthen the network, not just fill my fridge.&quot;
                 </li>
                 <li>
-                  <strong>Irritation with the status quo:</strong> A sense that
+                  <strong>Irritation with the Status Quo:</strong> A sense that
                   the current food system too often leaves some neighborhoods
                   with fewer healthy options.
                 </li>
                 <li>
-                  <strong>Compassion and solidarity:</strong> A desire to stand
+                  <strong>Compassion &amp; Solidarity:</strong> A desire to stand
                   with neighbors and help build something that works for more
                   people.
                 </li>
                 <li>
-                  <strong>Agency over charity:</strong> Stewardship isn&apos;t
+                  <strong>Agency &gt; Charity:</strong> Stewardship isn&apos;t
                   about saving anyone—it&apos;s about taking responsibility for
                   the kind of community we want.
                 </li>
@@ -133,9 +133,10 @@ export default function LearnPage() {
 
             <p className="text-harvest-earth">
               Stewardship is a simple idea: we do better when we do this
-              together. If you believe expanding access to healthy food makes
-              the whole community stronger—and that it doesn&apos;t take away
-              from what you have—you may already be a Steward.
+              together.
+              If you believe expanding access to healthy food makes the whole
+              community stronger—and that it doesn&apos;t take away from what
+              you have—you may already be a Steward.
             </p>
           </div>
         )}
@@ -149,12 +150,12 @@ export default function LearnPage() {
               Harvest Hub sources produce through a regional network of farms, distributors, and surplus food partners, allowing bundles to adapt to seasonal availability while keeping costs affordable.
             </p>
             <ul className="list-inside list-disc space-y-2 text-harvest-earth">
-              <li><strong>Network sourcing:</strong> Produce comes from local farms when available, regional distributors, and food recovery partners to ensure a consistent supply.</li>
-              <li><strong>Example bundle:</strong> Contents may include leafy greens, root vegetables, seasonal fruits, herbs, and other fresh staples depending on availability.</li>
-              <li><strong>Pilot phase:</strong> Harvest Hub is testing produce mixes, price points, and supply partners. Early feedback helps shape future bundles and sourcing partnerships.</li>
+              <li><strong>Network Sourcing:</strong> Produce comes from local farms when available, regional distributors, and food recovery partners to ensure a consistent supply.</li>
+              <li><strong>Example Bundle:</strong> Contents may include leafy greens, root vegetables, seasonal fruits, herbs, and other fresh staples depending on availability.</li>
+              <li><strong>Pilot Phase:</strong> Harvest Hub is testing produce mixes, price points, and supply partners. Early feedback helps shape future bundles and sourcing partnerships.</li>
             </ul>
             <p className="text-harvest-earth">
-              Pickup happens at designated community nodes (partner organizations, churches, or community centers). When your order is confirmed, you'll be assigned to a nearby pickup node with limited capacity to ensure smooth distribution.
+              Pickup happens at designated community nodes (partner organizations). When your order is confirmed, you'll be assigned to a nearby pickup node with limited capacity to ensure smooth distribution.
             </p>
           </div>
         )}
