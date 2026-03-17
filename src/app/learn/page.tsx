@@ -19,7 +19,7 @@ export default function LearnPage() {
           { id: "why" as const, label: "Why This Exists" },
           { id: "steward" as const, label: "What is a Steward?" },
           { id: "sourcing" as const, label: "Where Produce Comes From" },
-          { id: "devoir" as const, label: "What is Devoir" },
+          { id: "devoir" as const, label: "What is Devoir?" },
         ].map(({ id, label }) => (
           <button
             key={id}
@@ -162,10 +162,10 @@ export default function LearnPage() {
         {activeSection === "devoir" && (
           <div className="space-y-4">
             <h2 className="text-xl font-semibold text-harvest-green">
-              What is Devoir
+              What is Devoir?
             </h2>
             <p className="text-harvest-earth">
-              Devoir is the coordination system that keeps Harvest Hub fair, predictable, and accessible for everyone. It ensures that:
+              Devoir is the system that keeps Harvest Hub fair, predictable, and accessible for everyone. It ensures that:
             </p>
             <ul className="list-inside list-disc space-y-2 text-harvest-earth">
               <li>
@@ -176,7 +176,7 @@ export default function LearnPage() {
                 Every Steward reservation unlocks an additional Equity seat for a household facing financial barriers.
               </li>
               <li>
-                <strong>Waitlists move fairly:</strong> When new capacity opens, Equity households on the waitlist are promoted in order, so access grows transparently.
+                <strong>Waitlists move fairly:</strong> When new capacity opens, households on the waitlist are promoted in order, so access grows transparently.
               </li>
             </ul>
             <p className="text-harvest-earth">
