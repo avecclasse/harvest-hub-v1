@@ -1,6 +1,6 @@
 # Harvest Hub
 
-A customer-facing web app for reserving weekly produce bundles, choosing pricing tiers (Equity, Anchor, Steward), and tracking orders through a community capacity pool system.
+A customer-facing web app for reserving weekly produce bundles, choosing pricing tiers (Supported, Standard, Steward), and tracking orders through a community capacity pool system.
 
 ## Tech Stack
 
