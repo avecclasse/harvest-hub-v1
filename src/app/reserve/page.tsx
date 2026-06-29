@@ -187,7 +187,6 @@ export default function ReservePage() {
           </h2>
           <p className="mt-2 text-sm text-harvest-earth">
             Fresh seasonal fruits, vegetables, and herbs sourced through our regional farm network.
-Pickup at your assigned community node.
           </p>
         </div>
 
