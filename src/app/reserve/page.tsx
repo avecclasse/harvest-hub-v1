@@ -16,7 +16,7 @@ import {
 } from "@/lib/capacity";
 
 const CURRENT_MARKET_ID = "market-current";
-const DEFAULT_TOTAL_CAPACITY = 50;
+const DEFAULT_TOTAL_CAPACITY = 35;
 
 export default function ReservePage() {
   const [tier, setTier] = useState<Tier | null>(null);
