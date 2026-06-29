@@ -5,6 +5,12 @@
 
 export type Tier = "equity" | "anchor" | "steward";
 
+export const TIER_LABELS: Record<Tier, string> = {
+  equity: "Supported",
+  anchor: "Standard",
+  steward: "Steward",
+};
+
 export type OrderStatus =
   | "received"
   | "in_queue"

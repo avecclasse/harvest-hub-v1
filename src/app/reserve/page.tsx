@@ -7,6 +7,7 @@ import { db } from "@/lib/db";
 import { AuthGuard } from "@/components/AuthGuard";
 import {
   type Tier,
+  TIER_LABELS,
   getCapacitySnapshot,
   determineReservationOutcome,
   createDefaultMarketConfig,
@@ -203,13 +204,13 @@ export default function ReservePage() {
                     : "border-harvest-earth/20 hover:border-harvest-earth/40"
                 }`}
               >
-                <span className="font-medium">{t}</span>
+                <span className="font-medium">{TIER_LABELS[t]}</span>
                 <p className="mt-1 text-sm text-harvest-earth">
                   {t === "equity" &&
                     "For households facing food access barriers."}
                   {t === "anchor" && "Helps sustain operations."}
                   {t === "steward" &&
-                    "Expands access: 1 Steward unlocks 1 additional Equity seat."}
+                    "Expands access: 1 Steward unlocks 1 additional Supported seat."}
                 </p>
               </button>
             ))}

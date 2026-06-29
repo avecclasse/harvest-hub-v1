@@ -60,7 +60,7 @@ export default function LearnPage() {
               </li>
             </ul>
             <p className="text-harvest-earth">
-              Harvest Hub uses a shared capacity model where Steward participation expands access for others. Each Steward order unlocks one additional Equity seat, allowing more households in need to access fresh produce.
+              Harvest Hub uses a shared capacity model where Steward participation expands access for others. Each Steward order unlocks one additional Supported seat, allowing more households in need to access fresh produce.
             </p>
           </div>
         )}
@@ -115,8 +115,8 @@ export default function LearnPage() {
                   Stewards participate.
                 </li>
                 <li>
-                  <strong>They unlock Equity seats:</strong> Each Steward
-                  produce bundle opens additional Equity seats for households
+                  <strong>They unlock Supported seats:</strong> Each Steward
+                  produce bundle opens additional Supported seats for households
                   with fewer resources.
                 </li>
                 <li>
@@ -174,7 +174,7 @@ export default function LearnPage() {
               </li>
               <li>
                 <strong>Community support expands access:</strong>{" "}
-                Every Steward reservation unlocks an additional Equity seat for a household facing financial barriers.
+                Every Steward reservation unlocks an additional Supported seat for a household facing financial barriers.
               </li>
               <li>
                 <strong>Waitlists move fairly:</strong> When new capacity opens, households on the waitlist are promoted in order, so access grows transparently.

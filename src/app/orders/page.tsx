@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { db } from "@/lib/db";
 import { AuthGuard } from "@/components/AuthGuard";
+import { TIER_LABELS, type Tier } from "@/lib/capacity";
 
 const STATUS_LABELS: Record<string, string> = {
   received: "Order Received",
@@ -101,7 +102,7 @@ export default function OrdersPage() {
                   <div className="flex items-start justify-between">
                     <div>
                       <p className="font-medium capitalize text-harvest-green">
-                        {order.tier} Tier
+                        {TIER_LABELS[order.tier as Tier] ?? order.tier} Tier
                       </p>
                       <p className="mt-1 text-sm text-harvest-earth">
                         {new Date(order.timestamp as number).toLocaleDateString()}
@@ -146,7 +147,8 @@ export default function OrdersPage() {
                   {showTransparency && (
                     <div className="mt-4 rounded-lg bg-harvest-cream/50 p-4 text-sm">
                       <p>
-                        <strong>Tier:</strong> {order.tier}
+                        <strong>Tier:</strong>{" "}
+                        {TIER_LABELS[order.tier as Tier] ?? order.tier}
                       </p>
                       <p>
                         <strong>Timestamp:</strong>{" "}

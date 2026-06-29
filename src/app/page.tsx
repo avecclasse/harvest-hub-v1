@@ -33,7 +33,7 @@ export default function HomePage() {
         >
           <h2 className="font-semibold text-harvest-green">Reserve</h2>
           <p className="mt-2 text-sm text-harvest-earth">
-            Reserve your produce bundle. Choose Equity, Anchor, or
+            Reserve your produce bundle. Choose Supported, Standard, or
             Steward tier.
           </p>
         </Link>
