@@ -27,7 +27,7 @@ export default function DashboardPage() {
   if (error) {
     return (
       <div className="rounded-lg bg-red-50 p-4 text-red-600">
-        Error loading dashboard: {error.message}
+        Error loading community impact: {error.message}
       </div>
     );
   }
@@ -68,7 +68,7 @@ export default function DashboardPage() {
     100,
     (confirmedBundles / snapshot.totalCapacity) * 100
   );
-  const weeklyBundlesRemaining = Math.max(
+  const bundlesRemaining = Math.max(
     0,
     snapshot.totalCapacity - confirmedBundles
   );
@@ -91,10 +91,11 @@ export default function DashboardPage() {
   return (
     <div className="space-y-8">
       <h1 className="text-2xl font-bold text-harvest-green">
-        Community Capacity Pool
+        Community Impact
       </h1>
       <p className="text-sm text-harvest-earth">
-        Every Steward bundle purchased helps unlock additional Supported access for
+        See how participation expands access across the current produce drop.
+        Every Steward contribution helps unlock additional Supported access for
         a neighbor facing financial barriers.
       </p>
 
@@ -112,7 +113,7 @@ export default function DashboardPage() {
             <div className="flex flex-col items-center text-xs text-harvest-green text-center max-w-[200px]">
               <span className="text-base">➜</span>
               <span>
-                Steward participation this week unlocked additional Supported
+                Steward participation in this drop unlocked additional Supported
                 access.
               </span>
             </div>
@@ -141,7 +142,7 @@ export default function DashboardPage() {
               {confirmedBundles} of {snapshot.totalCapacity} market bundles reserved
             </p>
             <p className="text-xs text-harvest-earth">
-              {weeklyBundlesRemaining} bundles remaining
+              {bundlesRemaining} bundles remaining
             </p>
           </div>
         </div>
@@ -218,15 +219,24 @@ export default function DashboardPage() {
         <div className="mt-4 grid gap-4 text-xs text-harvest-earth md:grid-cols-3">
           <div>
             <p className="font-medium text-harvest-green">Supported</p>
-            <p>Reduced-cost access for neighbors facing financial barriers.</p>
+            <p>
+              Reduced-price access for someone who would face a barrier paying
+              the regular price.
+            </p>
           </div>
           <div>
             <p className="font-medium text-harvest-green">Standard</p>
-            <p>Regular bundle price participation.</p>
+            <p>
+              Regular-price participation that helps sustain sourcing and
+              distribution.
+            </p>
           </div>
           <div>
             <p className="font-medium text-harvest-green">Steward</p>
-            <p>Participation that helps unlock additional Supported access.</p>
+            <p>
+              A higher contribution that helps expand reduced-price access for
+              another household.
+            </p>
           </div>
         </div>
       </div>

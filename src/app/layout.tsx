@@ -9,7 +9,7 @@ const inter = Inter({ subsets: ["latin"] });
 export const metadata: Metadata = {
   title: "Harvest Hub - Community Produce Reservations",
   description:
-    "Reserve your weekly produce bundle and support community food access",
+    "A one-time Camden pilot offering a seasonal produce bundle and shared participation options that expand community food access",
 };
 
 export default function RootLayout({

@@ -4,7 +4,6 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { id } from "@instantdb/react";
 import { db } from "@/lib/db";
-import { AuthGuard } from "@/components/AuthGuard";
 import {
   type Tier,
   TIER_LABELS,
@@ -18,13 +17,22 @@ import {
 const CURRENT_MARKET_ID = "market-current";
 const DEFAULT_TOTAL_CAPACITY = 35;
 
+const OPTION_DESCRIPTIONS: Record<Tier, string> = {
+  equity:
+    "Reduced-price access for someone who would face a barrier paying the regular price.",
+  anchor:
+    "Regular-price participation that helps sustain sourcing and distribution.",
+  steward:
+    "A higher contribution that helps expand reduced-price access for another household.",
+};
+
 export default function ReservePage() {
   const [tier, setTier] = useState<Tier | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
   const router = useRouter();
-  const { user } = db.useAuth();
+  const { isLoading: authLoading, user } = db.useAuth();
 
   const { data } = db.useQuery({
     markets: { $: { where: { marketId: CURRENT_MARKET_ID } } },
@@ -33,7 +41,12 @@ export default function ReservePage() {
   });
 
   const handleReserve = async () => {
-    if (!tier || !user) return;
+    if (!tier) return;
+
+    if (!user) {
+      router.push("/login?next=/reserve");
+      return;
+    }
 
     setError("");
     setSuccess("");
@@ -140,7 +153,9 @@ export default function ReservePage() {
             newSnapshot.unlockedEquitySeats,
             newSnapshot.equityCap
           );
-          const canPromote = priorityWaitlist.length > 0 && newSnapshot.equityCount < equityAvailable;
+          const canPromote =
+            priorityWaitlist.length > 0 &&
+            newSnapshot.equityCount < equityAvailable;
           if (canPromote) {
             const toPromote = priorityWaitlist[0];
             const promoteNodeId = nodesData[0]?.id ?? nodeId;
@@ -160,8 +175,8 @@ export default function ReservePage() {
         outcome.status === "confirmed"
           ? "Reservation confirmed! View your order in My Orders."
           : outcome.status === "waitlisted_priority"
-          ? "You're on the Waitlist. We'll notify you when a capacity opens."
-          : "You're on the Waitlist. We'll notify you when capacity opens."
+            ? "You're on the Waitlist. We'll notify you when a capacity opens."
+            : "You're on the Waitlist. We'll notify you when capacity opens."
       );
       setTimeout(() => router.push("/orders"), 2000);
     } catch (err) {
@@ -172,64 +187,81 @@ export default function ReservePage() {
   };
 
   return (
-    <AuthGuard>
-      <div className="mx-auto max-w-2xl">
-        <h1 className="text-2xl font-bold text-harvest-green">
-          Reserve Your Bundle
-        </h1>
-        <p className="mt-2 text-harvest-earth">
-          Choose your bundle tier. Every Steward bundle helps another household receive produce. <br />
-          All bundles include the same produce. Tiers indicate the level at which participants contribute to supporting community access.
+    <div className="mx-auto max-w-2xl">
+      <h1 className="text-2xl font-bold text-harvest-green">
+        Reserve Your Bundle
+      </h1>
+      <p className="mt-2 text-harvest-earth">
+        Choose a participation option for the Camden produce drop. Every
+        Steward contribution helps expand Supported access for another
+        household.
+      </p>
+      <p className="mt-2 text-harvest-earth">
+        Every participant receives the same produce. The options only change
+        how much each person contributes.
+      </p>
+
+      <div className="mt-8 rounded-xl border border-harvest-earth/20 bg-white p-6">
+        <h2 className="font-semibold text-harvest-green">
+          What You&apos;re Reserving
+        </h2>
+        <p className="mt-2 text-sm text-harvest-earth">
+          One seasonal produce bundle for a one-time Camden pilot drop—fruits,
+          vegetables, herbs, and other fresh staples. This is not a
+          subscription or recurring membership. Confirmed participants will
+          receive pricing, drop-date, and Camden-area pickup/delivery details.
         </p>
-
-        <div className="mt-8 rounded-xl border border-harvest-earth/20 bg-white p-6">
-          <h2 className="font-semibold text-harvest-green">
-            Produce Bundle
-          </h2>
-          <p className="mt-2 text-sm text-harvest-earth">
-            Fresh seasonal fruits, vegetables, and herbs sourced through our regional farm network.
-          </p>
-        </div>
-
-        <div className="mt-8">
-          <h2 className="font-semibold text-harvest-green">Select Your Tier</h2>
-          <div className="mt-4 space-y-3">
-            {(["equity", "anchor", "steward"] as Tier[]).map((t) => (
-              <button
-                key={t}
-                onClick={() => setTier(t)}
-                className={`w-full rounded-lg border-2 px-4 py-3 text-left capitalize transition ${
-                  tier === t
-                    ? "border-harvest-green bg-harvest-green/10"
-                    : "border-harvest-earth/20 hover:border-harvest-earth/40"
-                }`}
-              >
-                <span className="font-medium">{TIER_LABELS[t]}</span>
-                <p className="mt-1 text-sm text-harvest-earth">
-                  {t === "equity" &&
-                    "For households facing food access barriers."}
-                  {t === "anchor" && "Helps sustain operations."}
-                  {t === "steward" &&
-                    "Expands access: 1 Steward unlocks 1 additional Supported seat."}
-                </p>
-              </button>
-            ))}
-          </div>
-        </div>
-
-        {error && <p className="mt-4 text-sm text-red-600">{error}</p>}
-        {success && (
-          <p className="mt-4 text-sm text-harvest-green">{success}</p>
-        )}
-
-        <button
-          onClick={handleReserve}
-          disabled={loading || !tier}
-          className="mt-8 w-full rounded-lg bg-harvest-green px-4 py-3 font-medium text-white hover:bg-harvest-green/90 disabled:opacity-50"
-        >
-          {loading ? "Processing..." : "Reserve Bundle"}
-        </button>
       </div>
-    </AuthGuard>
+
+      <div className="mt-8">
+        <h2 className="font-semibold text-harvest-green">
+          Select a participation option
+        </h2>
+        <div className="mt-4 space-y-3">
+          {(["equity", "anchor", "steward"] as Tier[]).map((t) => (
+            <button
+              key={t}
+              type="button"
+              onClick={() => setTier(t)}
+              className={`w-full rounded-lg border-2 px-4 py-3 text-left transition ${
+                tier === t
+                  ? "border-harvest-green bg-harvest-green/10"
+                  : "border-harvest-earth/20 hover:border-harvest-earth/40"
+              }`}
+            >
+              <span className="font-medium">{TIER_LABELS[t]}</span>
+              <p className="mt-1 text-sm text-harvest-earth">
+                {OPTION_DESCRIPTIONS[t]}
+              </p>
+            </button>
+          ))}
+        </div>
+      </div>
+
+      {error && <p className="mt-4 text-sm text-red-600">{error}</p>}
+      {success && (
+        <p className="mt-4 text-sm text-harvest-green">{success}</p>
+      )}
+
+      {!authLoading && !user && (
+        <p className="mt-6 text-sm text-harvest-earth">
+          Log in to submit your reservation. You can review the offer and
+          participation options first.
+        </p>
+      )}
+
+      <button
+        type="button"
+        onClick={handleReserve}
+        disabled={loading || !tier}
+        className="mt-8 w-full rounded-lg bg-harvest-green px-4 py-3 font-medium text-white hover:bg-harvest-green/90 disabled:opacity-50"
+      >
+        {loading
+          ? "Processing..."
+          : !user
+            ? "Log in to reserve"
+            : "Reserve Bundle"}
+      </button>
+    </div>
   );
 }

@@ -26,7 +26,7 @@ export function Nav() {
             href="/dashboard"
             className="text-sm font-medium text-harvest-earth hover:text-harvest-green"
           >
-            Dashboard
+            Community Impact
           </Link>
           <Link
             href="/learn"

@@ -1,6 +1,6 @@
 # Harvest Hub
 
-A customer-facing web app for reserving weekly produce bundles, choosing pricing tiers (Supported, Standard, Steward), and tracking orders through a community capacity pool system.
+A customer-facing web app for a one-time Camden produce-drop pilot: reserve a seasonal produce bundle, choose a participation option (Supported, Standard, or Steward), and track orders through a community capacity pool.
 
 ## Tech Stack
 
@@ -32,10 +32,10 @@ A customer-facing web app for reserving weekly produce bundles, choosing pricing
 
 ## Pages
 
-- `/` — Home with hero and links
+- `/` — Home with pilot overview, participation options, and how it works
 - `/login` — Magic Code email authentication
-- `/reserve` — Reserve bundle (requires auth)
-- `/dashboard` — Community capacity pool dashboard
+- `/reserve` — View the offer and participation options (login required to submit)
+- `/dashboard` — Community Impact for the current produce drop
 - `/learn` — Mission, sourcing, and Devoir info
 - `/orders` — My orders and tracking (requires auth)
 

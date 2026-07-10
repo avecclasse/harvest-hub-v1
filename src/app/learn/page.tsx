@@ -56,11 +56,11 @@ export default function LearnPage() {
                 farmers' markets or grocery stores without reliable transit.
               </li>
               <li>
-                <strong>Inconvenient Options:</strong> Healthy food is often available only at specific times or locations, making it difficult for busy households to access it consistently.
+                <strong>Inconvenient Options:</strong> Healthy food is often available only at specific times or locations, making it difficult for busy households to get what they need.
               </li>
             </ul>
             <p className="text-harvest-earth">
-              Harvest Hub uses a shared capacity model where Steward participation expands access for others. Each Steward order unlocks one additional Supported seat, allowing more households in need to access fresh produce.
+              This Camden pilot uses a shared capacity model where Steward participation expands access for others. Each Steward reservation unlocks one additional Supported seat, allowing more households in need to receive the same seasonal produce bundle.
             </p>
           </div>
         )}
@@ -71,10 +71,11 @@ export default function LearnPage() {
               What is a Steward?
             </h2>
             <p className="text-harvest-earth">
-              A Steward is someone who joins Harvest Hub knowing their food
-              choices can improve their community. They&apos;re not just buying
-              produce for themselves—they&apos;re choosing a system that helps
-              more households consistently access quality food.
+              A Steward is someone who participates in Harvest Hub knowing their
+              contribution can improve their community. They&apos;re not just
+              reserving produce for themselves—they&apos;re choosing a
+              participation option that helps another household receive the same
+              bundle at a reduced price.
             </p>
 
             <div>
@@ -124,9 +125,10 @@ export default function LearnPage() {
                   the model away from charity and toward shared participation.
                 </li>
                 <li>
-                  <strong>They strengthen inclusion:</strong> As more Stewards
-                  join, the network grows in a way that brings in households
-                  that are often excluded from healthy food systems.
+                  <strong>They strengthen inclusion:</strong> Steward
+                  participation in this drop expands Supported seats so more
+                  households that are often excluded from healthy food systems
+                  can take part.
                 </li>
               </ul>
             </div>
@@ -147,15 +149,15 @@ export default function LearnPage() {
               Where Produce Comes From
             </h2>
             <p className="text-harvest-earth">
-              Harvest Hub sources produce through a regional network of farms, distributors, and surplus food partners, allowing bundles to adapt to seasonal availability while keeping costs affordable.
+              For this Camden pilot, Harvest Hub sources produce through a regional network of farms, distributors, and surplus food partners, adapting the seasonal bundle to what is available while keeping costs approachable.
             </p>
             <ul className="list-inside list-disc space-y-2 text-harvest-earth">
-              <li><strong>Network Sourcing:</strong> Produce comes from local farms when available, regional distributors, and food recovery partners to ensure a consistent supply.</li>
-              <li><strong>Example Bundle:</strong> Contents may include leafy greens, root vegetables, seasonal fruits, herbs, and other fresh staples depending on availability.</li>
-              <li><strong>Pilot Phase:</strong> Harvest Hub is testing produce mixes, price points, and supply partners. Early feedback helps shape future bundles and sourcing partnerships.</li>
+              <li><strong>Network Sourcing:</strong> Produce comes from local farms when available, regional distributors, and food recovery partners.</li>
+              <li><strong>Seasonal Bundle:</strong> Contents may include leafy greens, root vegetables, seasonal fruits, herbs, and other fresh staples depending on availability.</li>
+              <li><strong>Pilot Phase:</strong> Harvest Hub is testing one coordinated produce drop—produce mix, pricing, and supply partners. Confirmed participants will receive fulfillment details; early feedback will inform what comes next.</li>
             </ul>
             <p className="text-harvest-earth">
-              Pickup happens at designated community nodes (partner organizations). When your order is confirmed, you'll be assigned to a nearby pickup node with limited capacity to ensure smooth distribution.
+              Confirmed participants will receive Camden-area pickup or delivery details. Specific locations and timing are shared after reservation confirmation—not invented here in advance.
             </p>
           </div>
         )}
@@ -170,7 +172,7 @@ export default function LearnPage() {
             </p>
             <ul className="list-inside list-disc space-y-2 text-harvest-earth">
               <li>
-                <strong>Capacity stays balanced:</strong> Tier limits keep the system healthy, so no single group takes all available seats.
+                <strong>Capacity stays balanced:</strong> Participation option limits keep the system healthy, so no single group takes all available seats.
               </li>
               <li>
                 <strong>Community support expands access:</strong>{" "}
