@@ -34,8 +34,8 @@ export default function HomePage() {
           Fresh produce, coordinated for Camden.
         </h1>
         <p className="mx-auto mt-4 max-w-2xl text-lg text-harvest-earth md:text-xl">
-          Harvest Hub is a one-time Camden pilot offering a seasonal produce
-          bundle with fruits, vegetables, herbs, and other fresh staples.
+          Harvest Hub is a pilot offering a produce bundle with 
+          fruits, vegetables, herbs, and other fresh staples.
         </p>
         <div className="mt-8 flex flex-wrap items-center justify-center gap-4">
           <a
@@ -94,12 +94,11 @@ export default function HomePage() {
         </h2>
         <div className="rounded-xl border border-harvest-earth/20 bg-white p-6">
           <ul className="list-inside list-disc space-y-3 text-harvest-earth">
-            <li>This is one seasonal produce bundle.</li>
-            <li>This pilot involves one coordinated produce drop.</li>
+            <li>This is one produce bundle.</li>
+            <li>This pilot involves a coordinated produce drop.</li>
             <li>It is not a subscription or recurring membership.</li>
             <li>
-              Confirmed participants will receive pricing, drop-date, and
-              Camden-area pickup/delivery details.
+              Confirmed participants will receive pickup/delivery information.
             </li>
           </ul>
         </div>
@@ -112,7 +111,7 @@ export default function HomePage() {
         <ol className="grid gap-4 md:grid-cols-3">
           {[
             "Choose Supported, Standard, or Steward.",
-            "Submit a reservation for the Camden drop.",
+            "Submit a reservation.",
             "Receive confirmation and fulfillment details.",
           ].map((step, index) => (
             <li
@@ -135,8 +134,7 @@ export default function HomePage() {
         >
           <h2 className="font-semibold text-harvest-green">Community Impact</h2>
           <p className="mt-2 text-sm text-harvest-earth">
-            See how participation expands access across the current produce
-            drop.
+            See how your participation expands access.
           </p>
         </Link>
         <Link
