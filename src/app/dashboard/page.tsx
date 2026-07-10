@@ -129,7 +129,7 @@ export default function DashboardPage() {
         </div>
         <div className="rounded-xl border border-harvest-earth/20 bg-white p-6">
           <h2 className="text-sm font-medium text-harvest-earth">
-            Market Bundles Reserved
+            Bundles Reserved
           </h2>
           <div className="mt-2">
             <div className="h-4 w-full overflow-hidden rounded-full bg-harvest-earth/20">
@@ -139,7 +139,7 @@ export default function DashboardPage() {
               />
             </div>
             <p className="mt-1 text-sm text-harvest-earth">
-              {confirmedBundles} of {snapshot.totalCapacity} market bundles reserved
+              {confirmedBundles} of {snapshot.totalCapacity} bundles reserved
             </p>
             <p className="text-xs text-harvest-earth">
               {bundlesRemaining} bundles remaining
@@ -150,10 +150,10 @@ export default function DashboardPage() {
 
       <div className="rounded-xl border border-harvest-earth/20 bg-white p-6">
         <h2 className="font-semibold text-harvest-green">
-          Market Bundle Breakdown
+          Bundle Breakdown
         </h2>
         <p className="mt-1 text-sm text-harvest-earth">
-          This market, {snapshot.unlockedEquitySeats} Supported bundles are
+          {snapshot.unlockedEquitySeats} Supported bundles are
           available: {snapshot.baseEquitySeats} base + {snapshot.stewardCount}{" "}
           unlocked through Steward participation.
         </p>
@@ -165,7 +165,7 @@ export default function DashboardPage() {
                   {snapshot.totalCapacity}
                 </p>
                 <p className="text-sm text-harvest-earth">
-                  Market bundle limit
+                 Bundle limit
                 </p>
               </div>
             </div>
