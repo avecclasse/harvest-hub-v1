@@ -34,8 +34,8 @@ export default function HomePage() {
           Fresh produce, coordinated for Camden.
         </h1>
         <p className="mx-auto mt-4 max-w-2xl text-lg text-harvest-earth md:text-xl">
-          Harvest Hub is a one-time Camden pilot offering a seasonal produce
-          bundle with fruits, vegetables, herbs, and other fresh staples.
+          Harvest Hub is a pilot offering a produce bundle with fruits,
+          vegetables, herbs, and other fresh staples.
         </p>
         <div className="mt-8 flex flex-wrap items-center justify-center gap-4">
           <a
@@ -94,12 +94,12 @@ export default function HomePage() {
         </h2>
         <div className="rounded-xl border border-harvest-earth/20 bg-white p-6">
           <ul className="list-inside list-disc space-y-3 text-harvest-earth">
-            <li>This is one seasonal produce bundle.</li>
-            <li>This pilot involves one coordinated produce drop.</li>
+            <li>This is one produce bundle.</li>
+            <li>This pilot involves a coordinated produce drop.</li>
             <li>It is not a subscription or recurring membership.</li>
             <li>
-              Selected participants will receive pricing, drop-date, and
-              local pickup/delivery details.
+              Selected participants will receive pricing, drop-date, and local
+              pickup/delivery details.
             </li>
           </ul>
         </div>
