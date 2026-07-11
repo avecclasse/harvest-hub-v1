@@ -149,15 +149,15 @@ export default function LearnPage() {
               Where Produce Comes From
             </h2>
             <p className="text-harvest-earth">
-              For this Camden pilot, Harvest Hub sources produce through a regional network of farms, distributors, and surplus food partners, adapting the seasonal bundle to what is available while keeping costs approachable.
+              For this Camden pilot, Harvest Hub sources produce through a regional network of farms, distributors, and surplus food partners, adapting the bundle to what is available while keeping costs approachable.
             </p>
             <ul className="list-inside list-disc space-y-2 text-harvest-earth">
               <li><strong>Network Sourcing:</strong> Produce comes from local farms when available, regional distributors, and food recovery partners.</li>
               <li><strong>Seasonal Bundle:</strong> Contents may include leafy greens, root vegetables, seasonal fruits, herbs, and other fresh staples depending on availability.</li>
-              <li><strong>Pilot Phase:</strong> Harvest Hub is testing one coordinated produce drop—produce mix, pricing, and supply partners. Confirmed participants will receive fulfillment details; early feedback will inform what comes next.</li>
+              <li><strong>Pilot Phase:</strong> Harvest Hub is testing one coordinated produce drop—produce mix, pricing, and supply partners. Confirmed participants will receive fulfillment details & early feedback will inform what comes next.</li>
             </ul>
             <p className="text-harvest-earth">
-              Confirmed participants will receive Camden-area pickup or delivery details. Specific locations and timing are shared after reservation confirmation—not invented here in advance.
+              Confirmed participants will receive local pickup or delivery details. Specific locations and timing are shared after reservation confirmation.
             </p>
           </div>
         )}
