@@ -220,8 +220,7 @@ export default function DashboardPage() {
           <div>
             <p className="font-medium text-harvest-green">Supported</p>
             <p>
-              Reduced-price access for someone who would face a barrier paying
-              the regular price.
+              Reduced-price access for households who would otherwise face barriers to purchasing a bundle.
             </p>
           </div>
           <div>
