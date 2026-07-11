@@ -83,14 +83,14 @@ export default function HomePage() {
             href="/reserve"
             className="inline-block rounded-lg bg-harvest-green px-5 py-3 text-sm font-medium text-white hover:bg-harvest-green/90"
           >
-            Reserve for the Camden drop
+            Apply for the Camden Produce Drop
           </Link>
         </div>
       </section>
 
       <section className="space-y-4">
         <h2 className="text-2xl font-bold text-harvest-green">
-          What You&apos;re Reserving
+          What You&apos;re Applying For
         </h2>
         <div className="rounded-xl border border-harvest-earth/20 bg-white p-6">
           <ul className="list-inside list-disc space-y-3 text-harvest-earth">
@@ -98,8 +98,8 @@ export default function HomePage() {
             <li>This pilot involves one coordinated produce drop.</li>
             <li>It is not a subscription or recurring membership.</li>
             <li>
-              Confirmed participants will receive pricing, drop-date, and
-              Camden-area pickup/delivery details.
+              Selected participants will receive pricing, drop-date, and
+              local pickup/delivery details.
             </li>
           </ul>
         </div>
@@ -112,8 +112,8 @@ export default function HomePage() {
         <ol className="grid gap-4 md:grid-cols-3">
           {[
             "Choose Supported, Standard, or Steward.",
-            "Submit a reservation for the Camden drop.",
-            "Receive confirmation and fulfillment details.",
+            "Submit an application for the Camden drop.",
+            "Administrators review applications and notify selected participants.",
           ].map((step, index) => (
             <li
               key={step}
@@ -135,8 +135,8 @@ export default function HomePage() {
         >
           <h2 className="font-semibold text-harvest-green">Community Impact</h2>
           <p className="mt-2 text-sm text-harvest-earth">
-            See how participation expands access across the current produce
-            drop.
+            See how selected participants expand access across the current
+            produce drop.
           </p>
         </Link>
         <Link
@@ -152,9 +152,9 @@ export default function HomePage() {
           href="/orders"
           className="rounded-xl border border-harvest-earth/20 bg-white p-6 shadow-sm transition hover:border-harvest-lime/50 hover:shadow-md"
         >
-          <h2 className="font-semibold text-harvest-green">My Orders</h2>
+          <h2 className="font-semibold text-harvest-green">My Applications</h2>
           <p className="mt-2 text-sm text-harvest-earth">
-            Track your reservations with order status updates.
+            Track your applications and selection status.
             {!isLoading && !user ? " Log in required." : ""}
           </p>
         </Link>

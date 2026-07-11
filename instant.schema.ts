@@ -5,6 +5,8 @@ const _schema = i.schema({
     $users: i.entity({
       email: i.string().unique().indexed(),
     }),
+    // Applications for the produce drop (entity name kept as "orders" for data continuity).
+    // Canonical status: pending_review | selected | waitlisted | declined | assigned | ready
     orders: i.entity({
       timestamp: i.date(),
       tier: i.string(),

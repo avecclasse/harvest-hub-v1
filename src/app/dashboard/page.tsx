@@ -4,11 +4,10 @@ import { db } from "@/lib/db";
 import {
   getCapacitySnapshot,
   createDefaultMarketConfig,
+  CURRENT_MARKET_ID,
+  TOTAL_CAPACITY,
   type OrderSnapshot,
 } from "@/lib/capacity";
-
-const CURRENT_MARKET_ID = "market-current";
-const DEFAULT_TOTAL_CAPACITY = 35;
 
 export default function DashboardPage() {
   const { data, isLoading, error } = db.useQuery({
@@ -44,7 +43,7 @@ export default function DashboardPage() {
         anchorCapPercent: market.anchorCapPercent,
         stewardCapPercent: market.stewardCapPercent,
       }
-    : createDefaultMarketConfig(CURRENT_MARKET_ID, DEFAULT_TOTAL_CAPACITY);
+    : createDefaultMarketConfig(CURRENT_MARKET_ID, TOTAL_CAPACITY);
 
   const orderSnapshots: OrderSnapshot[] = ordersData.map((o) => ({
     id: o.id,
@@ -59,18 +58,16 @@ export default function DashboardPage() {
 
   const snapshot = getCapacitySnapshot(marketConfig, orderSnapshots);
 
-  const confirmedBundles = snapshot.totalConfirmed;
-  const householdsSupported =
-    snapshot.equityCount + snapshot.anchorCount + snapshot.stewardCountConfirmed;
+  const selectedBundles = snapshot.totalSelected;
   const stewardBundlesPurchased = snapshot.stewardCountConfirmed;
   const equityBundlesUnlocked = snapshot.unlockedEquitySeats;
   const progressPercent = Math.min(
     100,
-    (confirmedBundles / snapshot.totalCapacity) * 100
+    (selectedBundles / snapshot.totalCapacity) * 100
   );
   const bundlesRemaining = Math.max(
     0,
-    snapshot.totalCapacity - confirmedBundles
+    snapshot.totalCapacity - selectedBundles
   );
 
   const equityPercent =
@@ -94,9 +91,10 @@ export default function DashboardPage() {
         Community Impact
       </h1>
       <p className="text-sm text-harvest-earth">
-        See how participation expands access across the current produce drop.
-        Every Steward contribution helps unlock additional Supported access for
-        a neighbor facing financial barriers.
+        See how selected participants expand access across the current produce
+        drop. Every selected Steward helps unlock additional Supported access
+        for a neighbor facing financial barriers. Pending applications are not
+        counted here.
       </p>
 
       <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
@@ -139,7 +137,7 @@ export default function DashboardPage() {
               />
             </div>
             <p className="mt-1 text-sm text-harvest-earth">
-              {confirmedBundles} of {snapshot.totalCapacity} market bundles reserved
+              {selectedBundles} of {snapshot.totalCapacity} bundles reserved
             </p>
             <p className="text-xs text-harvest-earth">
               {bundlesRemaining} bundles remaining

@@ -2,9 +2,11 @@
 
 import Link from "next/link";
 import { db } from "@/lib/db";
+import { isAdminEmail } from "@/lib/admin";
 
 export function Nav() {
   const { isLoading, user } = db.useAuth();
+  const showAdmin = !isLoading && isAdminEmail(user?.email);
 
   return (
     <nav className="sticky top-0 z-50 border-b border-harvest-earth/20 bg-harvest-cream/95 backdrop-blur-sm">
@@ -20,7 +22,7 @@ export function Nav() {
             href="/reserve"
             className="text-sm font-medium text-harvest-earth hover:text-harvest-green"
           >
-            Reserve
+            Apply
           </Link>
           <Link
             href="/dashboard"
@@ -34,6 +36,14 @@ export function Nav() {
           >
             Learn
           </Link>
+          {showAdmin && (
+            <Link
+              href="/admin/applications"
+              className="text-sm font-medium text-harvest-earth hover:text-harvest-green"
+            >
+              Admin
+            </Link>
+          )}
           {!isLoading && (
             <>
               {user ? (
@@ -42,7 +52,7 @@ export function Nav() {
                     href="/orders"
                     className="text-sm font-medium text-harvest-earth hover:text-harvest-green"
                   >
-                    My Orders
+                    My Applications
                   </Link>
                   <button
                     onClick={() => db.auth.signOut()}

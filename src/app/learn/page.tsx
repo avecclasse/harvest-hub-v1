@@ -53,14 +53,14 @@ export default function LearnPage() {
               </li>
               <li>
                 <strong>Transportation Barriers:</strong> Difficulty reaching
-                farmers' markets or grocery stores without reliable transit.
+                farmers&apos; markets or grocery stores without reliable transit.
               </li>
               <li>
                 <strong>Inconvenient Options:</strong> Healthy food is often available only at specific times or locations, making it difficult for busy households to get what they need.
               </li>
             </ul>
             <p className="text-harvest-earth">
-              This Camden pilot uses a shared capacity model where Steward participation expands access for others. Each Steward reservation unlocks one additional Supported seat, allowing more households in need to receive the same seasonal produce bundle.
+              This Camden pilot uses a shared capacity model where selected Steward participants expand access for others. Each selected Steward unlocks one additional Supported seat, allowing more households in need to receive the same seasonal produce bundle.
             </p>
           </div>
         )}
@@ -73,7 +73,7 @@ export default function LearnPage() {
             <p className="text-harvest-earth">
               A Steward is someone who participates in Harvest Hub knowing their
               contribution can improve their community. They&apos;re not just
-              reserving produce for themselves—they&apos;re choosing a
+              applying for produce for themselves—they&apos;re choosing a
               participation option that helps another household receive the same
               bundle at a reduced price.
             </p>
@@ -157,7 +157,7 @@ export default function LearnPage() {
               <li><strong>Pilot Phase:</strong> Harvest Hub is testing one coordinated produce drop—produce mix, pricing, and supply partners. Confirmed participants will receive fulfillment details; early feedback will inform what comes next.</li>
             </ul>
             <p className="text-harvest-earth">
-              Confirmed participants will receive Camden-area pickup or delivery details. Specific locations and timing are shared after reservation confirmation—not invented here in advance.
+              Selected participants will receive local pickup or delivery details. Specific locations and timing are shared after selection.
             </p>
           </div>
         )}
@@ -176,14 +176,14 @@ export default function LearnPage() {
               </li>
               <li>
                 <strong>Community support expands access:</strong>{" "}
-                Every Steward reservation unlocks an additional Supported seat for a household facing financial barriers.
+                Every selected Steward unlocks an additional Supported seat for a household facing financial barriers.
               </li>
               <li>
-                <strong>Waitlists move fairly:</strong> When new capacity opens, households on the waitlist are promoted in order, so access grows transparently.
+                <strong>Selection is deliberate:</strong> Administrators review applications and select participants within the 35-bundle capacity.
               </li>
             </ul>
             <p className="text-harvest-earth">
-              Devoir runs quietly in the background to allocate orders, coordinate pickup nodes, and keep the system operating smoothly.
+              Devoir runs quietly in the background to track applications, coordinate pickup nodes, and keep the system operating smoothly.
             </p>
           </div>
         )}

@@ -4,24 +4,14 @@ import { useState } from "react";
 import { db } from "@/lib/db";
 import { AuthGuard } from "@/components/AuthGuard";
 import { TIER_LABELS, type Tier } from "@/lib/capacity";
-
-const STATUS_LABELS: Record<string, string> = {
-  received: "Order Received",
-  in_queue: "Entered Allocation Queue",
-  confirmed: "Capacity Confirmed",
-  waitlisted_priority: "Priority Waitlist",
-  waitlisted_standard: "Standard Waitlist",
-  assigned: "Assigned to Pickup Node",
-  ready: "Ready for Pickup",
-};
-
-const STATUS_ORDER = [
-  "received",
-  "in_queue",
-  "confirmed",
-  "assigned",
-  "ready",
-];
+import {
+  getStatusLabel,
+  getProgressIndex,
+  isWaitlistedStatus,
+  isDeclinedStatus,
+  STATUS_PROGRESS_ORDER,
+  STATUS_LABELS,
+} from "@/lib/application-status";
 
 export default function OrdersPage() {
   const [showTransparency, setShowTransparency] = useState(false);
@@ -55,7 +45,7 @@ export default function OrdersPage() {
   if (error) {
     return (
       <div className="rounded-lg bg-red-50 p-4 text-red-600">
-        Error loading orders: {error.message}
+        Error loading applications: {error.message}
       </div>
     );
   }
@@ -64,7 +54,9 @@ export default function OrdersPage() {
     <AuthGuard>
       <div className="mx-auto max-w-2xl">
         <div className="flex items-center justify-between">
-          <h1 className="text-2xl font-bold text-harvest-green">My Orders</h1>
+          <h1 className="text-2xl font-bold text-harvest-green">
+            My Applications
+          </h1>
           <label className="flex items-center gap-2 text-sm text-harvest-earth">
             <input
               type="checkbox"
@@ -77,15 +69,18 @@ export default function OrdersPage() {
         </div>
 
         <p className="mt-2 text-harvest-earth">
-          Track your reservations through the allocation process.
+          Track your applications for the Camden produce drop.
         </p>
 
         {orders.length === 0 ? (
           <div className="mt-8 rounded-xl border border-harvest-earth/20 bg-white p-8 text-center">
             <p className="text-harvest-earth">
-              You don&apos;t have any orders yet.{" "}
-              <a href="/reserve" className="font-medium text-harvest-green underline">
-                Reserve a bundle
+              You don&apos;t have any applications yet.{" "}
+              <a
+                href="/reserve"
+                className="font-medium text-harvest-green underline"
+              >
+                Apply for the Camden Produce Drop
               </a>{" "}
               to get started.
             </p>
@@ -93,7 +88,11 @@ export default function OrdersPage() {
         ) : (
           <div className="mt-8 space-y-6">
             {orders.map((order) => {
-              const statusIdx = STATUS_ORDER.indexOf(order.status);
+              const status = order.status as string;
+              const progressIdx = getProgressIndex(status);
+              const terminal =
+                isWaitlistedStatus(status) || isDeclinedStatus(status);
+
               return (
                 <div
                   key={order.id}
@@ -105,44 +104,51 @@ export default function OrdersPage() {
                         {TIER_LABELS[order.tier as Tier] ?? order.tier}
                       </p>
                       <p className="mt-1 text-sm text-harvest-earth">
-                        {new Date(order.timestamp as number).toLocaleDateString()}
+                        {new Date(
+                          order.timestamp as number
+                        ).toLocaleDateString()}
                       </p>
                     </div>
                     <span
                       className={`rounded-full px-3 py-1 text-xs font-medium ${
-                        order.status.includes("waitlist")
-                          ? "bg-amber-100 text-amber-800"
+                        terminal
+                          ? isDeclinedStatus(status)
+                            ? "bg-red-100 text-red-800"
+                            : "bg-amber-100 text-amber-800"
                           : "bg-harvest-lime/20 text-harvest-green"
                       }`}
                     >
-                      {STATUS_LABELS[order.status] ?? order.status}
+                      {getStatusLabel(status)}
                     </span>
                   </div>
 
-                  <div className="mt-4">
-                    <div className="flex gap-2">
-                      {STATUS_ORDER.map((s, i) => {
-                        const isActive = statusIdx >= i;
-                        const isCurrent = order.status === s;
-                        return (
-                          <div
-                            key={s}
-                            className={`h-2 flex-1 rounded ${
-                              isActive ? "bg-harvest-lime" : "bg-harvest-earth/20"
-                            } ${isCurrent ? "ring-2 ring-harvest-green ring-offset-2" : ""}`}
-                            title={STATUS_LABELS[s]}
-                          />
-                        );
-                      })}
+                  {!terminal && progressIdx >= 0 && (
+                    <div className="mt-4">
+                      <div className="flex gap-2">
+                        {STATUS_PROGRESS_ORDER.map((s, i) => {
+                          const isActive = progressIdx >= i;
+                          const isCurrent = progressIdx === i;
+                          return (
+                            <div
+                              key={s}
+                              className={`h-2 flex-1 rounded ${
+                                isActive
+                                  ? "bg-harvest-lime"
+                                  : "bg-harvest-earth/20"
+                              } ${isCurrent ? "ring-2 ring-harvest-green ring-offset-2" : ""}`}
+                              title={STATUS_LABELS[s]}
+                            />
+                          );
+                        })}
+                      </div>
+                      <div className="mt-2 flex justify-between text-xs text-harvest-earth">
+                        <span>Applied</span>
+                        <span>Selected</span>
+                        <span>Assigned</span>
+                        <span>Ready</span>
+                      </div>
                     </div>
-                    <div className="mt-2 flex justify-between text-xs text-harvest-earth">
-                      {STATUS_ORDER.map((s) => (
-                        <span key={s} className="text-center">
-                          {STATUS_LABELS[s].split(" ")[0]}
-                        </span>
-                      ))}
-                    </div>
-                  </div>
+                  )}
 
                   {showTransparency && (
                     <div className="mt-4 rounded-lg bg-harvest-cream/50 p-4 text-sm">

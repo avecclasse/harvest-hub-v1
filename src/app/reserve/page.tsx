@@ -7,15 +7,9 @@ import { db } from "@/lib/db";
 import {
   type Tier,
   TIER_LABELS,
-  getCapacitySnapshot,
-  determineReservationOutcome,
-  createDefaultMarketConfig,
-  getPriorityWaitlistFIFO,
-  type OrderSnapshot,
+  CURRENT_MARKET_ID,
 } from "@/lib/capacity";
-
-const CURRENT_MARKET_ID = "market-current";
-const DEFAULT_TOTAL_CAPACITY = 35;
+import { isActiveApplication } from "@/lib/application-status";
 
 const OPTION_DESCRIPTIONS: Record<Tier, string> = {
   equity:
@@ -34,13 +28,23 @@ export default function ReservePage() {
   const router = useRouter();
   const { isLoading: authLoading, user } = db.useAuth();
 
-  const { data } = db.useQuery({
-    markets: { $: { where: { marketId: CURRENT_MARKET_ID } } },
-    orders: { $: { where: { marketId: CURRENT_MARKET_ID } } },
-    nodes: {},
-  });
+  const { data } = db.useQuery(
+    user
+      ? {
+          markets: { $: { where: { marketId: CURRENT_MARKET_ID } } },
+          $users: {
+            $: { where: { id: user.id } },
+            orders: {
+              $: { where: { marketId: CURRENT_MARKET_ID } },
+            },
+          },
+        }
+      : {
+          markets: { $: { where: { marketId: CURRENT_MARKET_ID } } },
+        }
+  );
 
-  const handleReserve = async () => {
+  const handleApply = async () => {
     if (!tier) return;
 
     if (!user) {
@@ -54,133 +58,44 @@ export default function ReservePage() {
 
     try {
       const market = data?.markets?.[0];
-      const ordersData = data?.orders ?? [];
-      const nodesData = data?.nodes ?? [];
+      if (!market) {
+        setError(
+          "Applications are not open yet. Please check back once the produce drop is accepting applications."
+        );
+        return;
+      }
 
-      const marketConfig = market
-        ? {
-            marketId: market.marketId,
-            totalCapacity: market.totalCapacity,
-            baseEquitySeats: market.baseEquitySeats,
-            equityCapPercent: market.equityCapPercent,
-            anchorCapPercent: market.anchorCapPercent,
-            stewardCapPercent: market.stewardCapPercent,
-          }
-        : createDefaultMarketConfig(CURRENT_MARKET_ID, DEFAULT_TOTAL_CAPACITY);
-
-      const orderSnapshots: OrderSnapshot[] = ordersData.map((o) => ({
-        id: o.id,
-        tier: o.tier as Tier,
-        status: o.status as OrderSnapshot["status"],
-        timestamp:
-          typeof o.timestamp === "number"
-            ? o.timestamp
-            : new Date(o.timestamp as string).getTime(),
-        waitlistType: o.waitlistType as "priority" | "standard" | undefined,
-      }));
-
-      const snapshot = getCapacitySnapshot(marketConfig, orderSnapshots);
-      const outcome = determineReservationOutcome(tier, snapshot);
+      const existingOrders = data?.$users?.[0]?.orders ?? [];
+      const hasActive = existingOrders.some((o) =>
+        isActiveApplication(o.status as string)
+      );
+      if (hasActive) {
+        setError(
+          "You already have an active application for this produce drop. Check My Applications for its status."
+        );
+        return;
+      }
 
       const orderId = id();
       const now = new Date();
-
-      let marketEntityId = market?.id;
-      if (!marketEntityId) {
-        marketEntityId = id();
-        await db.transact(
-          db.tx.markets[marketEntityId].update({
-            marketId: CURRENT_MARKET_ID,
-            totalCapacity: DEFAULT_TOTAL_CAPACITY,
-            baseEquitySeats: 5,
-            equityCapPercent: 0.3,
-            anchorCapPercent: 0.55,
-            stewardCapPercent: 0.25,
-            status: "open",
-            createdAt: now.getTime(),
-          })
-        );
-      }
 
       await db.transact([
         db.tx.orders[orderId]
           .update({
             timestamp: now.getTime(),
             tier,
-            status: outcome.status,
+            status: "pending_review",
             marketId: CURRENT_MARKET_ID,
-            waitlistType: outcome.waitlistType ?? undefined,
           })
-          .link({ $user: user.id, market: marketEntityId }),
+          .link({ $user: user.id, market: market.id }),
       ]);
 
-      if (outcome.status === "confirmed") {
-        let nodeId = nodesData[0]?.id;
-        if (!nodeId) {
-          nodeId = id();
-          await db.transact(
-            db.tx.nodes[nodeId].update({
-              name: "Community Pickup A",
-              capacity: 20,
-              remainingCapacity: 19,
-            })
-          );
-        }
-        await db.transact([
-          db.tx.orders[orderId].update({
-            status: "in_queue",
-            assignedNodeId: nodeId,
-          }),
-          db.tx.orders[orderId].link({ node: nodeId }),
-        ]);
-
-        if (tier === "steward") {
-          const updatedSnapshots: OrderSnapshot[] = [
-            ...orderSnapshots,
-            {
-              id: orderId,
-              tier: "steward",
-              status: "confirmed",
-              timestamp: now.getTime(),
-            },
-          ];
-          const newSnapshot = getCapacitySnapshot(
-            marketConfig,
-            updatedSnapshots
-          );
-          const priorityWaitlist = getPriorityWaitlistFIFO(orderSnapshots);
-          const equityAvailable = Math.min(
-            newSnapshot.unlockedEquitySeats,
-            newSnapshot.equityCap
-          );
-          const canPromote =
-            priorityWaitlist.length > 0 &&
-            newSnapshot.equityCount < equityAvailable;
-          if (canPromote) {
-            const toPromote = priorityWaitlist[0];
-            const promoteNodeId = nodesData[0]?.id ?? nodeId;
-            await db.transact([
-              db.tx.orders[toPromote.id].update({
-                status: "in_queue",
-                assignedNodeId: promoteNodeId,
-                waitlistType: undefined,
-              }),
-              db.tx.orders[toPromote.id].link({ node: promoteNodeId }),
-            ]);
-          }
-        }
-      }
-
       setSuccess(
-        outcome.status === "confirmed"
-          ? "Reservation confirmed! View your order in My Orders."
-          : outcome.status === "waitlisted_priority"
-            ? "You're on the Waitlist. We'll notify you when a capacity opens."
-            : "You're on the Waitlist. We'll notify you when capacity opens."
+        "Application received. We'll review applications and notify selected participants with next steps."
       );
       setTimeout(() => router.push("/orders"), 2000);
     } catch (err) {
-      setError((err as Error).message || "Failed to create reservation.");
+      setError((err as Error).message || "Failed to submit application.");
     } finally {
       setLoading(false);
     }
@@ -189,7 +104,7 @@ export default function ReservePage() {
   return (
     <div className="mx-auto max-w-2xl">
       <h1 className="text-2xl font-bold text-harvest-green">
-        Reserve Your Bundle
+        Apply for the Camden Produce Drop
       </h1>
       <p className="mt-2 text-harvest-earth">
         Choose a participation option for the Camden produce drop. Every
@@ -198,18 +113,20 @@ export default function ReservePage() {
       </p>
       <p className="mt-2 text-harvest-earth">
         Every participant receives the same produce. The options only change
-        how much each person contributes.
+        how much each person contributes. Submitting an application does not
+        confirm a seat. Administrators review applications and select
+        participants later.
       </p>
 
       <div className="mt-8 rounded-xl border border-harvest-earth/20 bg-white p-6">
         <h2 className="font-semibold text-harvest-green">
-          What You&apos;re Reserving
+          What You&apos;re Applying For
         </h2>
         <p className="mt-2 text-sm text-harvest-earth">
-          One seasonal produce bundle for a one-time Camden pilot drop—fruits,
+          One seasonal produce bundle for a Camden pilot drop—fruits,
           vegetables, herbs, and other fresh staples. This is not a
-          subscription or recurring membership. Confirmed participants will
-          receive pricing, drop-date, and Camden-area pickup/delivery details.
+          subscription or recurring membership. Selected participants will
+          receive pricing, drop-date, and local pickup/delivery details.
         </p>
       </div>
 
@@ -245,22 +162,22 @@ export default function ReservePage() {
 
       {!authLoading && !user && (
         <p className="mt-6 text-sm text-harvest-earth">
-          Log in to submit your reservation. You can review the offer and
+          Log in to submit your application. You can review the offer and
           participation options first.
         </p>
       )}
 
       <button
         type="button"
-        onClick={handleReserve}
+        onClick={handleApply}
         disabled={loading || !tier}
         className="mt-8 w-full rounded-lg bg-harvest-green px-4 py-3 font-medium text-white hover:bg-harvest-green/90 disabled:opacity-50"
       >
         {loading
-          ? "Processing..."
+          ? "Submitting..."
           : !user
-            ? "Log in to reserve"
-            : "Reserve Bundle"}
+            ? "Log in to apply"
+            : "Submit Application"}
       </button>
     </div>
   );

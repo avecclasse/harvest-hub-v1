@@ -1,7 +1,13 @@
 /**
- * Harvest Hub Capacity Rules - Deterministic implementation
- * These rules govern seat availability, tier caps, and waitlist logic.
+ * Harvest Hub capacity helpers for selected participants.
+ * Only seat-holding statuses count toward the 35-bundle capacity.
  */
+
+import {
+  holdsSeat,
+  TOTAL_CAPACITY,
+  SELECTION_TARGETS,
+} from "./application-status";
 
 export type Tier = "equity" | "anchor" | "steward";
 
@@ -11,14 +17,21 @@ export const TIER_LABELS: Record<Tier, string> = {
   steward: "Steward",
 };
 
+export { TOTAL_CAPACITY, SELECTION_TARGETS };
+
+/** @deprecated Prefer ApplicationStatus from application-status.ts */
 export type OrderStatus =
+  | "pending_review"
+  | "selected"
+  | "waitlisted"
+  | "declined"
+  | "assigned"
+  | "ready"
   | "received"
   | "in_queue"
   | "confirmed"
   | "waitlisted_priority"
-  | "waitlisted_standard"
-  | "assigned"
-  | "ready";
+  | "waitlisted_standard";
 
 export interface MarketConfig {
   marketId: string;
@@ -32,7 +45,7 @@ export interface MarketConfig {
 export interface OrderSnapshot {
   id: string;
   tier: Tier;
-  status: OrderStatus;
+  status: string;
   timestamp: number;
   waitlistType?: "priority" | "standard";
 }
@@ -48,6 +61,9 @@ export interface CapacitySnapshot {
   equityCount: number;
   anchorCount: number;
   stewardCountConfirmed: number;
+  /** Selected participants holding seats (selected + assigned + ready + legacy). */
+  totalSelected: number;
+  /** @deprecated Alias of totalSelected for older call sites */
   totalConfirmed: number;
 }
 
@@ -57,9 +73,8 @@ const DEFAULT_STEWARD_CAP = 0.25;
 const DEFAULT_BASE_EQUITY_SEATS = 5;
 
 /**
- * Rule 1: Every market begins with baseEquitySeats = 5
- * Rule 2: 1 Steward reservation unlocks 1 additional Equity seat
- * Example: 5 base + 3 Steward = 8 available Equity seats
+ * Rule: Every market begins with baseEquitySeats = 5
+ * Rule: 1 selected Steward unlocks 1 additional Supported seat
  */
 export function calculateUnlockedEquitySeats(
   baseEquitySeats: number,
@@ -69,7 +84,7 @@ export function calculateUnlockedEquitySeats(
 }
 
 /**
- * Calculate structural tier caps based on total market capacity
+ * Structural tier caps based on total market capacity (dashboard guidance).
  * Equity ≤ 30%, Anchor ≤ 55%, Steward ≤ 25%
  */
 export function calculateTierCaps(
@@ -85,37 +100,29 @@ export function calculateTierCaps(
   };
 }
 
-const SEAT_HOLDING_STATUSES: OrderStatus[] = [
-  "received",
-  "in_queue",
-  "confirmed",
-  "assigned",
-  "ready",
-];
-
 /**
- * Get counts of orders holding seats by tier (excludes waitlisted)
+ * Counts of applications holding seats by tier.
+ * Excludes pending_review, waitlisted, declined.
  */
-function getConfirmedCountsByTier(orders: OrderSnapshot[]) {
-  const confirmed = orders.filter((o) =>
-    SEAT_HOLDING_STATUSES.includes(o.status)
-  );
+export function getSelectedCountsByTier(orders: OrderSnapshot[]) {
+  const selected = orders.filter((o) => holdsSeat(o.status));
   return {
-    equity: confirmed.filter((o) => o.tier === "equity").length,
-    anchor: confirmed.filter((o) => o.tier === "anchor").length,
-    steward: confirmed.filter((o) => o.tier === "steward").length,
-    total: confirmed.length,
+    equity: selected.filter((o) => o.tier === "equity").length,
+    anchor: selected.filter((o) => o.tier === "anchor").length,
+    steward: selected.filter((o) => o.tier === "steward").length,
+    total: selected.length,
   };
 }
 
 /**
- * Full capacity snapshot for a market given its orders
+ * Full capacity snapshot for a market given its applications/orders.
+ * Only seat-holding statuses affect totals.
  */
 export function getCapacitySnapshot(
   market: MarketConfig,
   orders: OrderSnapshot[]
 ): CapacitySnapshot {
-  const counts = getConfirmedCountsByTier(orders);
+  const counts = getSelectedCountsByTier(orders);
   const caps = calculateTierCaps(
     market.totalCapacity,
     market.equityCapPercent,
@@ -139,82 +146,9 @@ export function getCapacitySnapshot(
     equityCount: counts.equity,
     anchorCount: counts.anchor,
     stewardCountConfirmed: counts.steward,
+    totalSelected: counts.total,
     totalConfirmed: counts.total,
   };
-}
-
-/**
- * Determine reservation outcome: confirmed, waitlisted_priority, or waitlisted_standard
- * Implements:
- * - Tier cap enforcement
- * - Unlocked Equity seats
- * - Priority waitlist when Equity seats full
- * - Standard waitlist when total market full
- */
-export function determineReservationOutcome(
-  tier: Tier,
-  snapshot: CapacitySnapshot
-): { status: OrderStatus; waitlistType?: "priority" | "standard" } {
-  // Check if total market is full
-  if (snapshot.totalConfirmed >= snapshot.totalCapacity) {
-    return { status: "waitlisted_standard", waitlistType: "standard" };
-  }
-
-  // Check tier-specific caps
-  if (tier === "equity") {
-    const equityAvailable = Math.min(
-      snapshot.unlockedEquitySeats,
-      snapshot.equityCap
-    );
-    if (snapshot.equityCount >= equityAvailable) {
-      return { status: "waitlisted_priority", waitlistType: "priority" };
-    }
-  }
-
-  if (tier === "anchor") {
-    if (snapshot.anchorCount >= snapshot.anchorCap) {
-      return { status: "waitlisted_standard", waitlistType: "standard" };
-    }
-  }
-
-  if (tier === "steward") {
-    if (snapshot.stewardCountConfirmed >= snapshot.stewardCap) {
-      return { status: "waitlisted_standard", waitlistType: "standard" };
-    }
-  }
-
-  return { status: "confirmed" };
-}
-
-/**
- * Get priority waitlisted Equity orders sorted FIFO by timestamp
- * Used when promoting users after new Steward reservations unlock Equity seats
- */
-export function getPriorityWaitlistFIFO(
-  orders: OrderSnapshot[]
-): OrderSnapshot[] {
-  return orders
-    .filter(
-      (o) =>
-        o.tier === "equity" &&
-        o.status === "waitlisted_priority" &&
-        o.waitlistType === "priority"
-    )
-    .sort((a, b) => a.timestamp - b.timestamp);
-}
-
-/**
- * Get standard waitlisted orders sorted FIFO by timestamp
- */
-export function getStandardWaitlistFIFO(
-  orders: OrderSnapshot[]
-): OrderSnapshot[] {
-  return orders
-    .filter(
-      (o) =>
-        o.status === "waitlisted_standard" && o.waitlistType === "standard"
-    )
-    .sort((a, b) => a.timestamp - b.timestamp);
 }
 
 /**
@@ -222,7 +156,7 @@ export function getStandardWaitlistFIFO(
  */
 export function createDefaultMarketConfig(
   marketId: string,
-  totalCapacity: number
+  totalCapacity: number = TOTAL_CAPACITY
 ): Omit<MarketConfig, "marketId"> & { marketId: string } {
   return {
     marketId,
@@ -233,3 +167,5 @@ export function createDefaultMarketConfig(
     stewardCapPercent: DEFAULT_STEWARD_CAP,
   };
 }
+
+export const CURRENT_MARKET_ID = "market-current";

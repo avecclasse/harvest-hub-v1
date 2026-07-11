@@ -2,14 +2,13 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
 import { Nav } from "@/components/Nav";
-import { db } from "@/lib/db";
 
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "Harvest Hub - Community Produce Reservations",
+  title: "Harvest Hub - Camden Produce Drop",
   description:
-    "A one-time Camden pilot offering a seasonal produce bundle and shared participation options that expand community food access",
+    "A Camden pilot offering a seasonal produce bundle and shared participation options that expand community food access",
 };
 
 export default function RootLayout({
