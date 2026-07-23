@@ -14,6 +14,8 @@ const _schema = i.schema({
       assignedNodeId: i.string().optional(),
       marketId: i.string(),
       waitlistType: i.string().optional(),
+      applicantName: i.string().optional(),
+      applicantPhone: i.string().optional(),
     }),
     nodes: i.entity({
       name: i.string(),

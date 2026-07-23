@@ -347,6 +347,8 @@ export default function AdminApplicationsPage() {
           <thead className="border-b border-harvest-earth/20 bg-harvest-cream/50 text-harvest-earth">
             <tr>
               <th className="px-4 py-3 font-medium">Submitted</th>
+              <th className="px-4 py-3 font-medium">Name</th>
+              <th className="px-4 py-3 font-medium">Phone</th>
               <th className="px-4 py-3 font-medium">Email</th>
               <th className="px-4 py-3 font-medium">Option</th>
               <th className="px-4 py-3 font-medium">Status</th>
@@ -357,7 +359,7 @@ export default function AdminApplicationsPage() {
             {filtered.length === 0 ? (
               <tr>
                 <td
-                  colSpan={5}
+                  colSpan={7}
                   className="px-4 py-8 text-center text-harvest-earth"
                 >
                   No applications match these filters.
@@ -370,6 +372,10 @@ export default function AdminApplicationsPage() {
                 const email =
                   (order.$user as { email?: string } | undefined)?.email ??
                   "—";
+                const name =
+                  (order.applicantName as string | undefined)?.trim() || "—";
+                const phone =
+                  (order.applicantPhone as string | undefined)?.trim() || "—";
                 const busy = busyId === order.id;
 
                 return (
@@ -380,6 +386,8 @@ export default function AdminApplicationsPage() {
                     <td className="px-4 py-3 text-harvest-earth">
                       {new Date(toTimestamp(order.timestamp)).toLocaleString()}
                     </td>
+                    <td className="px-4 py-3 text-harvest-green">{name}</td>
+                    <td className="px-4 py-3 text-harvest-earth">{phone}</td>
                     <td className="px-4 py-3 text-harvest-green">{email}</td>
                     <td className="px-4 py-3">
                       {TIER_LABELS[tier] ?? order.tier}
