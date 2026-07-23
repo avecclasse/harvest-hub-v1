@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { id } from "@instantdb/react";
 import { db } from "@/lib/db";
@@ -20,11 +21,20 @@ const OPTION_DESCRIPTIONS: Record<Tier, string> = {
     "A higher contribution that helps expand reduced-price access for another household.",
 };
 
+const inputClassName =
+  "mt-1 w-full rounded-md border border-harvest-earth/30 px-3 py-2 focus:border-harvest-green focus:outline-none focus:ring-1 focus:ring-harvest-green";
+
+function digitCount(phone: string) {
+  return phone.replace(/\D/g, "").length;
+}
+
 export default function ReservePage() {
   const [tier, setTier] = useState<Tier | null>(null);
+  const [applicantName, setApplicantName] = useState("");
+  const [applicantPhone, setApplicantPhone] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
-  const [success, setSuccess] = useState("");
+  const [submitted, setSubmitted] = useState(false);
   const router = useRouter();
   const { isLoading: authLoading, user } = db.useAuth();
 
@@ -44,16 +54,20 @@ export default function ReservePage() {
         }
   );
 
-  const handleApply = async () => {
-    if (!tier) return;
+  const nameTrimmed = applicantName.trim();
+  const phoneTrimmed = applicantPhone.trim();
+  const canSubmit =
+    !!tier && nameTrimmed.length > 0 && digitCount(phoneTrimmed) >= 10;
 
+  const handleApply = async () => {
     if (!user) {
       router.push("/login?next=/reserve");
       return;
     }
 
+    if (!canSubmit || !tier) return;
+
     setError("");
-    setSuccess("");
     setLoading(true);
 
     try {
@@ -86,20 +100,41 @@ export default function ReservePage() {
             tier,
             status: "pending_review",
             marketId: CURRENT_MARKET_ID,
+            applicantName: nameTrimmed,
+            applicantPhone: phoneTrimmed,
           })
           .link({ $user: user.id, market: market.id }),
       ]);
 
-      setSuccess(
-        "Application received. We'll review applications and notify selected participants with next steps."
-      );
-      setTimeout(() => router.push("/orders"), 2000);
+      setSubmitted(true);
     } catch (err) {
       setError((err as Error).message || "Failed to submit application.");
     } finally {
       setLoading(false);
     }
   };
+
+  if (submitted) {
+    return (
+      <div className="mx-auto max-w-2xl">
+        <div className="rounded-xl border border-harvest-earth/20 bg-white p-6">
+          <h1 className="text-2xl font-bold text-harvest-green">
+            Application received
+          </h1>
+          <p className="mt-4 text-harvest-earth">
+            Expect a follow-up text within the next 24 hours with the
+            application outcome and next steps.
+          </p>
+          <Link
+            href="/orders"
+            className="mt-6 inline-block rounded-lg bg-harvest-green px-4 py-3 font-medium text-white hover:bg-harvest-green/90"
+          >
+            View My Applications
+          </Link>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="mx-auto max-w-2xl">
@@ -130,6 +165,49 @@ export default function ReservePage() {
         </p>
       </div>
 
+      <div className="mt-8 space-y-4">
+        <h2 className="font-semibold text-harvest-green">Your contact info</h2>
+        <div>
+          <label
+            htmlFor="applicantName"
+            className="block text-sm font-medium text-harvest-earth"
+          >
+            Full name
+          </label>
+          <input
+            id="applicantName"
+            type="text"
+            value={applicantName}
+            onChange={(e) => setApplicantName(e.target.value)}
+            placeholder="Jane Doe"
+            required
+            autoComplete="name"
+            className={inputClassName}
+          />
+        </div>
+        <div>
+          <label
+            htmlFor="applicantPhone"
+            className="block text-sm font-medium text-harvest-earth"
+          >
+            Phone number
+          </label>
+          <input
+            id="applicantPhone"
+            type="tel"
+            value={applicantPhone}
+            onChange={(e) => setApplicantPhone(e.target.value)}
+            placeholder="(856) 555-0100"
+            required
+            autoComplete="tel"
+            className={inputClassName}
+          />
+          <p className="mt-1 text-xs text-harvest-earth">
+            We&apos;ll text you about your application outcome.
+          </p>
+        </div>
+      </div>
+
       <div className="mt-8">
         <h2 className="font-semibold text-harvest-green">
           Select a participation option
@@ -156,9 +234,6 @@ export default function ReservePage() {
       </div>
 
       {error && <p className="mt-4 text-sm text-red-600">{error}</p>}
-      {success && (
-        <p className="mt-4 text-sm text-harvest-green">{success}</p>
-      )}
 
       {!authLoading && !user && (
         <p className="mt-6 text-sm text-harvest-earth">
@@ -170,7 +245,7 @@ export default function ReservePage() {
       <button
         type="button"
         onClick={handleApply}
-        disabled={loading || !tier}
+        disabled={loading || (!user ? false : !canSubmit)}
         className="mt-8 w-full rounded-lg bg-harvest-green px-4 py-3 font-medium text-white hover:bg-harvest-green/90 disabled:opacity-50"
       >
         {loading
