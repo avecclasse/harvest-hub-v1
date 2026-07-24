@@ -162,10 +162,9 @@ export default function ReservePage() {
           What You&apos;re Applying For
         </h2>
         <p className="mt-2 text-sm text-harvest-earth">
-          One seasonal produce bundle for a Camden pilot drop—fruits,
-          vegetables, herbs, and other fresh staples. This is not a
-          subscription or recurring membership. Selected participants will
-          receive pricing, drop-date, and local pickup/delivery details.
+          A produce bundle containing:
+          <b>Potatoes, sweet potatoes, tomatoes, bell peppers, onions, lettuce, and fruit</b>
+          Selected participants will receive the drop date and local pickup/delivery details.
         </p>
       </div>
 
