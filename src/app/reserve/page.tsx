@@ -164,6 +164,7 @@ export default function ReservePage() {
         <p className="mt-2 text-sm text-harvest-earth">
           A produce bundle containing:
           <b>Potatoes, sweet potatoes, tomatoes, bell peppers, onions, lettuce, and fruit</b>
+          
           Selected participants will receive the drop date and local pickup/delivery details.
         </p>
       </div>
