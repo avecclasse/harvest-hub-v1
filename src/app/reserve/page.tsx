@@ -32,6 +32,7 @@ export default function ReservePage() {
   const [tier, setTier] = useState<Tier | null>(null);
   const [applicantName, setApplicantName] = useState("");
   const [applicantPhone, setApplicantPhone] = useState("");
+  const [acceptedBundleTerms, setAcceptedBundleTerms] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [submitted, setSubmitted] = useState(false);
@@ -57,7 +58,10 @@ export default function ReservePage() {
   const nameTrimmed = applicantName.trim();
   const phoneTrimmed = applicantPhone.trim();
   const canSubmit =
-    !!tier && nameTrimmed.length > 0 && digitCount(phoneTrimmed) >= 10;
+    !!tier &&
+    nameTrimmed.length > 0 &&
+    digitCount(phoneTrimmed) >= 10 &&
+    acceptedBundleTerms;
 
   const handleApply = async () => {
     if (!user) {
@@ -232,6 +236,20 @@ export default function ReservePage() {
           ))}
         </div>
       </div>
+
+      <label className="mt-8 flex cursor-pointer items-start gap-3 text-sm text-harvest-earth">
+        <input
+          type="checkbox"
+          checked={acceptedBundleTerms}
+          onChange={(e) => setAcceptedBundleTerms(e.target.checked)}
+          className="mt-1 h-4 w-4 shrink-0 rounded border-harvest-earth/30 text-harvest-green focus:ring-harvest-green"
+          required
+        />
+        <span>
+          I accept the bundle breakdown and understand that items may be
+          substituted based on supplier availability.
+        </span>
+      </label>
 
       {error && <p className="mt-4 text-sm text-red-600">{error}</p>}
 
